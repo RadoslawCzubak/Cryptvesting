@@ -35,7 +35,7 @@ data class TransactionModel(
         }
     }
 
-    private fun getTotalPrice(): Double {
+    fun getTotalPrice(): Double {
         return price * amount
     }
 }
