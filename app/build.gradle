@@ -25,6 +25,10 @@ android {
         buildConfigField "String", "CRYPTOCURRENCIES_KEY", apikeyProperties["CRYPTOCURRENCIES_KEY"]
     }
 
+    buildFeatures{
+        dataBinding true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
