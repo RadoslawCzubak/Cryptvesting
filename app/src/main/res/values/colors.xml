@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="blue_grey_900">#171625</color>
+    <color name="port_gore">#212243</color>
+    <color name="portage">#8385c2</color>
+    <color name="blue_500">#1B9BFD</color>
+    <color name="purple_a400">#CF00E6</color>
+    <color name="indigo_a700">#1C2BFB</color>
+    <color name="pink_700">#BC1B67</color>
+    <color name="green_600">#2AB72F</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="labelColor">@color/portage</color>
 </resources>
