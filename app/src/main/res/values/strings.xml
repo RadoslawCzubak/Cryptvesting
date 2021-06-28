@@ -2,5 +2,7 @@
     <string name="app_name">Cryptvesting</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="user_greeting">Hello, %1$s &#128075;</string>
+    <string name="user_greeting">Hello, \n %1$s &#128075;</string>
+    <string name="your_wallet">Your Wallet</string>
+    <string name="amount">Amount</string>
 </resources>
