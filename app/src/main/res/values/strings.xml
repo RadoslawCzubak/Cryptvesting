@@ -5,4 +5,7 @@
     <string name="user_greeting">Hello, \n %1$s &#128075;</string>
     <string name="your_wallet">Your Wallet</string>
     <string name="amount">Amount</string>
+    <string name="add">Add</string>
+    <string name="choose">choose</string>
+    <string name="cancel">Cancel</string>
 </resources>
