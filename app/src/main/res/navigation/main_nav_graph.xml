@@ -9,5 +9,17 @@
         android:id="@+id/dashboardFragment"
         android:name="com.rczubak.cryptvesting.ui.dashboard.DashboardFragment"
         android:label="DashboardFragment"
-        tools:layout="@layout/fragment_dashboard"/>
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboardFragment_to_addStatementFragment"
+            app:destination="@id/addStatementFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addStatementFragment"
+        android:name="com.rczubak.cryptvesting.ui.addStatement.AddStatementFragment"
+        android:label="AddStatementFragment" >
+        <action
+            android:id="@+id/action_addStatementFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
 </navigation>
