@@ -8,10 +8,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.rczubak.cryptvesting.R
 import com.rczubak.cryptvesting.databinding.FragmentAddStatementBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.InputStream
 
 @AndroidEntryPoint
 class AddStatementFragment : Fragment() {
@@ -19,10 +19,11 @@ class AddStatementFragment : Fragment() {
     private val viewModel: AddStatementViewModel by viewModels()
     private lateinit var binding: FragmentAddStatementBinding
     private lateinit var adapter: AddStatementAdapter
-    private val openFileLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        val inputStream = requireContext().contentResolver?.openInputStream(uri)
-        viewModel.readFile(inputStream!!)
-    }
+    private val openFileLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            val inputStream = requireContext().contentResolver?.openInputStream(uri)
+            viewModel.readFile(inputStream!!)
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,23 +38,33 @@ class AddStatementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setOnClickListeners()
+        setObservers()
     }
 
     private fun setupRecyclerView() {
         adapter = AddStatementAdapter {
-
+            onNoValuesView()
         }
         binding.apply {
             newStatementRv.adapter = adapter
+            newStatementRv.layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
-    private fun setOnClickListeners(){
+    private fun setOnClickListeners() {
         binding.chooseStatementButton.setOnClickListener {
             openFileLauncher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         }
     }
 
+    private fun setObservers() {
+        viewModel.transactionsToAdd.observe(viewLifecycleOwner) {
+            adapter.updateData(it)
+        }
+    }
 
+    private fun onNoValuesView(){
+        // TODO: Implement no values view
+    }
 
 }

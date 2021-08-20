@@ -3,11 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="transaction"
-            type="com.rczubak.cryptvesting.data.models.domain.TransactionModel" />
-    </data>
+    <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
