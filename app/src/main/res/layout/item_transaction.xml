@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="crypto"
-            type="com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel" />
+            name="transaction"
+            type="com.rczubak.cryptvesting.data.models.domain.TransactionModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

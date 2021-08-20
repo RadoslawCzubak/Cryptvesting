@@ -4,17 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
+import com.rczubak.cryptvesting.data.models.domain.TransactionModel
 import com.rczubak.cryptvesting.databinding.ItemTransactionBinding
 
 class AddStatementAdapter(private val onRecyclerViewEmpty: () -> Unit) : RecyclerView.Adapter<AddStatementAdapter.AddStatementViewHolder>() {
     inner class AddStatementViewHolder(private val binding: ItemTransactionBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(cryptoCurrencyModel: CryptoCurrencyModel){
-            binding.crypto = cryptoCurrencyModel
+        fun bind(transaction: TransactionModel){
+            binding.transaction = transaction
         }
     }
 
-    private val data = ArrayList<CryptoCurrencyModel>()
+    private val data = ArrayList<TransactionModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddStatementViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -33,7 +34,7 @@ class AddStatementAdapter(private val onRecyclerViewEmpty: () -> Unit) : Recycle
         return data.size
     }
 
-    fun updateData(data: ArrayList<CryptoCurrencyModel>) {
+    fun updateData(data: ArrayList<TransactionModel>) {
         this.data.clear()
         this.data.addAll(data)
     }
