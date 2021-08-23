@@ -35,7 +35,6 @@ class XlsReader {
             val sellCoin = splittedCoins[1]
             transactions.add(
                 TransactionModel.createFromStrings(
-                    "",
                     buyCoin,
                     sellCoin,
                     transactionRowStrings[TransactionsHeaders.PRICE.value],

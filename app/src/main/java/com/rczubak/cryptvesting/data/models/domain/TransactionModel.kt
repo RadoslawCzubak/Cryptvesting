@@ -1,11 +1,11 @@
 package com.rczubak.cryptvesting.data.models.domain
 
-import org.threeten.bp.format.DateTimeFormatter
-import java.lang.IllegalArgumentException
+import androidx.room.PrimaryKey
+import com.rczubak.cryptvesting.data.models.entities.TransactionEntity
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 data class TransactionModel(
-    val id: String,
     val buyCoin: String,
     val sellCoin: String,
     val price: Double,
@@ -17,7 +17,6 @@ data class TransactionModel(
     companion object {
         @Throws(IllegalArgumentException::class)
         fun createFromStrings(
-            id: String,
             buyCoin: String,
             sellCoin: String,
             price: String,
@@ -31,9 +30,21 @@ data class TransactionModel(
             val df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val objDate = LocalDateTime.parse(date, df)
 
-            return TransactionModel(id, buyCoin, sellCoin, objPrice, objAmount, objType, objDate)
+            return TransactionModel(buyCoin, sellCoin, objPrice, objAmount, objType, objDate)
         }
     }
+
+    @PrimaryKey var id: Int =  "$buyCoin$sellCoin$price$amount$type$date".hashCode()
+
+
+    constructor(transaction: TransactionEntity) : this(
+        transaction.buyCoin,
+        transaction.sellCoin,
+        transaction.price,
+        transaction.amount,
+        transaction.type,
+        transaction.date
+    )
 
     fun getTotalPrice(): Double {
         return price * amount

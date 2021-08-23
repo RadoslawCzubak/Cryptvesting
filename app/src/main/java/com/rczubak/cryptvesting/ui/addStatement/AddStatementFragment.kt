@@ -8,7 +8,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.rczubak.cryptvesting.R
 import com.rczubak.cryptvesting.databinding.FragmentAddStatementBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,16 +57,34 @@ class AddStatementFragment : Fragment() {
         binding.chooseStatementButton.setOnClickListener {
             openFileLauncher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         }
+
+        binding.saveButton.setOnClickListener {
+            viewModel.saveTransactions()
+        }
     }
 
     private fun setObservers() {
         viewModel.transactionsToAdd.observe(viewLifecycleOwner) {
             adapter.updateData(it)
+            binding.newStatementBtns.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+        }
+
+        viewModel.transactionsSaveStatus.observe(viewLifecycleOwner) {
+            if (it.getContentIfNotHandled() == true) {
+                showSnackbar()
+                val action =
+                    AddStatementFragmentDirections.actionAddStatementFragmentToDashboardFragment()
+                findNavController().navigate(action)
+            }
         }
     }
 
-    private fun onNoValuesView(){
+    private fun onNoValuesView() {
         // TODO: Implement no values view
+    }
+
+    private fun showSnackbar() {
+        Snackbar.make(this.requireView(), R.string.save_positive, Snackbar.LENGTH_SHORT)
     }
 
 }
