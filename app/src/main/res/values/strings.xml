@@ -9,4 +9,5 @@
     <string name="choose">choose</string>
     <string name="cancel">Cancel</string>
     <string name="save_positive">Zapisano!</string>
+    <string name="general_greetings">Hello </string>
 </resources>
