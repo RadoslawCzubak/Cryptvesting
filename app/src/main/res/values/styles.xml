@@ -11,4 +11,8 @@
         <item name="android:fontFamily">@font/lato</item>
         <item name="android:textColor">@color/labelColor</item>
     </style>
+
+    <style name="ToolbarColored" parent="Widget.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/white</item>
+    </style>
 </resources>
