@@ -1,6 +1,7 @@
 package com.rczubak.cryptvesting.data.models.entities
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
 import org.threeten.bp.LocalDateTime
 
@@ -12,7 +13,7 @@ data class CryptocurrencyEntity(
     val priceDate: LocalDateTime,
     val priceCurrency: String
 ) {
-    var id: Int = (name + symbol).hashCode()
+    @PrimaryKey var id: Int = (name + symbol).hashCode()
 
     constructor(crypto: CryptoCurrencyModel) : this(
         crypto.name,

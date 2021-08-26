@@ -9,7 +9,7 @@ import com.rczubak.cryptvesting.data.models.entities.CryptocurrencyEntity
 @Dao
 interface CryptocurrenciesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(cryptocurrencies: ArrayList<CryptocurrencyEntity>)
+    fun insertAll(cryptocurrencies: List<CryptocurrencyEntity>)
 
     @Query("SELECT * FROM cryptocurrencies")
     fun getAllCryptocurrenciesState(): List<CryptocurrencyEntity>
