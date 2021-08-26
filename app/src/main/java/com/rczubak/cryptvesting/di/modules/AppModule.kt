@@ -2,8 +2,8 @@ package com.rczubak.cryptvesting.di.modules
 
 import android.content.Context
 import androidx.room.Room
-import com.rczubak.cryptvesting.data.dao.TransactionsDao
-import com.rczubak.cryptvesting.data.dao.TransactionsDatabase
+import com.rczubak.cryptvesting.data.dao.transactions.TransactionsDao
+import com.rczubak.cryptvesting.data.dao.transactions.TransactionsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
