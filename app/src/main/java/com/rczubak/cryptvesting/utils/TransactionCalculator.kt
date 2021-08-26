@@ -1,17 +1,15 @@
 package com.rczubak.cryptvesting.utils
 
+import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
 import com.rczubak.cryptvesting.data.models.domain.TransactionModel
 import com.rczubak.cryptvesting.data.models.domain.TransactionType
 import com.rczubak.cryptvesting.data.models.domain.WalletCoin
-import com.rczubak.cryptvesting.data.repository.FakeCryptoMarketRepository
 
 object TransactionCalculator {
-    fun calculateProfitInUSD(transactions: ArrayList<TransactionModel>): Double {
-        val transactionsCoins = transactions.map {
-            it.buyCoin
-        }
-        val prices =
-            FakeCryptoMarketRepository().getCoinsPrice(ArrayList(transactionsCoins.distinct()))
+    fun calculateProfitInUSD(
+        transactions: ArrayList<TransactionModel>,
+        prices: ArrayList<CryptoCurrencyModel>
+    ): Double {
         var moneySpentOnCurrentCrypto = 0.0
         val cryptos = mutableMapOf<String, Double>()
         for (transaction in transactions) {
@@ -41,7 +39,7 @@ object TransactionCalculator {
             }?.price
             moneyInCryptoNow += value * price!!
         }
-        return moneyInCryptoNow - moneySpentOnCurrentCrypto
+        return moneyInCryptoNow + moneySpentOnCurrentCrypto
     }
 
     fun calculateWallet(transactions: ArrayList<TransactionModel>): ArrayList<WalletCoin> {
