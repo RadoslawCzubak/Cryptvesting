@@ -1,6 +1,6 @@
 package com.rczubak.cryptvesting.data.repository
 
-import com.rczubak.cryptvesting.data.dao.TransactionsDao
+import com.rczubak.cryptvesting.data.dao.transactions.TransactionsDao
 import com.rczubak.cryptvesting.data.models.domain.TransactionModel
 import com.rczubak.cryptvesting.data.models.entities.TransactionEntity
 import javax.inject.Inject
