@@ -7,7 +7,7 @@ import okhttp3.Response
 class ApiKeyInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
-        val originalUrl = originalRequest.url()
+        val originalUrl = originalRequest.url
         val url = originalUrl.newBuilder()
             .addQueryParameter("key", BuildConfig.CRYPTOCURRENCIES_KEY)
             .build()

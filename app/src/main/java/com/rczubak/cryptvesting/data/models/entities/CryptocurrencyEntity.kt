@@ -13,7 +13,7 @@ data class CryptocurrencyEntity(
     val name: String,
     val symbol: String,
     val price: Double,
-    val priceDate: LocalDateTime,
+    val priceDate: LocalDateTime?,
     val priceCurrency: String
 ) {
     @PrimaryKey var id: Int = (name + symbol).hashCode()

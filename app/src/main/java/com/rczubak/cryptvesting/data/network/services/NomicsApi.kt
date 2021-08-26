@@ -6,10 +6,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NomicsApi {
-    @GET("/currencies/ticker")
+    @GET("/v1/currencies/ticker")
     suspend fun getCryptocurrenciesCurrentInfo(@Query("ids") ids: String): Response<List<CryptoCurrencyModel>>
 
-    @GET("/currencies/ticker")
+    @GET("/v1/currencies/ticker")
     fun getCryptocurrenciesCurrentInfoPaged(
         @Query("ids") ids: String,
         @Query("page") page: Int,
