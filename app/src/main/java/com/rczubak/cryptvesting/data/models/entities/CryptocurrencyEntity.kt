@@ -4,7 +4,7 @@ import androidx.room.Entity
 import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
 import org.threeten.bp.LocalDateTime
 
-@Entity(tableName = "Cryptocurrency")
+@Entity(tableName = "cryptocurrencies")
 data class CryptocurrencyEntity(
     val name: String,
     val symbol: String,
