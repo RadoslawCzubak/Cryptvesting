@@ -6,7 +6,8 @@ import org.threeten.bp.format.DateTimeFormatter
 
 class Converters {
     @TypeConverter
-    fun fromDatabaseDate(value: String): LocalDateTime {
+    fun fromDatabaseDate(value: String): LocalDateTime? {
+        if (value=="") return null
         val dateFormatter = DateTimeFormatter.ISO_DATE_TIME
         return LocalDateTime.parse(value, dateFormatter)
     }
@@ -14,6 +15,6 @@ class Converters {
     @TypeConverter
     fun toDatabaseDate(value: LocalDateTime): String {
         val dateFormatter = DateTimeFormatter.ISO_DATE_TIME
-        return value.format(dateFormatter)
+        return value.format(dateFormatter)?:""
     }
 }

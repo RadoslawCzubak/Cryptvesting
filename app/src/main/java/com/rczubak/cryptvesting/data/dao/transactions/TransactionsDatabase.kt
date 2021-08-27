@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.data.dao
+package com.rczubak.cryptvesting.data.dao.transactions
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

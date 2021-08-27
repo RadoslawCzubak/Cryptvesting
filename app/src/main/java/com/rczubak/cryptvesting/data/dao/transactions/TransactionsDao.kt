@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.data.dao
+package com.rczubak.cryptvesting.data.dao.transactions
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -13,4 +13,7 @@ interface TransactionsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAllTransactions(transactions: List<TransactionEntity>)
+
+    @Query("SELECT DISTINCT buyCoin FROM transactions")
+    suspend fun getOwnedCrypto(): List<String>
 }
