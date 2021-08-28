@@ -19,5 +19,5 @@ interface CryptocurrenciesDao {
     suspend fun getCryptocurrencyStateBySymbol(symbol: String): CryptocurrencyEntity
 
     @Query("SELECT * FROM cryptocurrencies WHERE symbol IN (:symbols)")
-    suspend fun getCryptoCurrenciesStateBySymbol(symbols: List<String>): List<CryptoCurrencyModel>
+    suspend fun getCryptoCurrenciesStateBySymbol(symbols: List<String>): List<CryptocurrencyEntity>
 }

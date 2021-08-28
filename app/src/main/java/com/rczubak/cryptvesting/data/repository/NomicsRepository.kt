@@ -37,7 +37,7 @@ class NomicsRepository @Inject constructor(
             syncStatesOfAllOwnedCrypto(cryptoSymbols)
             cryptoStates = cryptocurrenciesDao.getCryptoCurrenciesStateBySymbol(cryptoSymbols)
         }
-        return Resource.success(cryptoStates)
+        return Resource.success(cryptoStates.map { CryptoCurrencyModel(it) })
     }
 
 }

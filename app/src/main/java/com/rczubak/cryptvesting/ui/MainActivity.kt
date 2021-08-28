@@ -31,11 +31,4 @@ class MainActivity : AppCompatActivity() {
         toolbar.setupWithNavController(navHostFragment.navController)
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
-
-    override fun onStart() {
-        super.onStart()
-        scope.launch {
-            repo.syncStatesOfAllOwnedCrypto()
-        }
-    }
 }

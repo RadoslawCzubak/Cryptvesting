@@ -1,5 +1,6 @@
 package com.rczubak.cryptvesting.ui.dashboard
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
@@ -8,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rczubak.cryptvesting.R
+import com.rczubak.cryptvesting.data.network.services.Resource
 import com.rczubak.cryptvesting.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
@@ -27,12 +30,14 @@ class DashboardFragment : Fragment() {
         return binding.root
     }
 
+    @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         setupRecyclerView()
         setObservers()
         viewModel.getWallet()
+        viewModel.observeProfit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -50,10 +55,37 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setObservers() {
         viewModel.apply {
             walletCoins.observe(viewLifecycleOwner) {
-                adapter.updateData(it)
+                when (it.status) {
+                    Resource.Status.SUCCESS -> {
+                        adapter.updateData(it.data!!)
+                    }
+                    Resource.Status.LOADING -> {
+                        TODO()
+                    }
+                    Resource.Status.ERROR -> {
+                        TODO()
+                    }
+                }
+            }
+
+            profit.observe(viewLifecycleOwner) {
+                when (it.status) {
+                    Resource.Status.SUCCESS -> {
+                        val balance = "%.2f".format(it.data!!)
+                        binding.includeBalance.balanceTextView.text = "$balance $"
+                    }
+                    Resource.Status.ERROR -> {
+                        TODO()
+                    }
+                    Resource.Status.LOADING -> {
+                        TODO()
+                    }
+
+                }
             }
         }
     }
