@@ -8,7 +8,7 @@ class Resource<out T>(val status: Status, val code: Int, val data: T?, val messa
     }
 
     companion object {
-        fun <T> success(code: Int, data: T): Resource<T> {
+        fun <T> success(data: T? = null, code: Int = 200): Resource<T> {
             return Resource(Status.SUCCESS, code, data, null)
         }
 
@@ -20,4 +20,6 @@ class Resource<out T>(val status: Status, val code: Int, val data: T?, val messa
             return Resource(Status.LOADING, code, data, null)
         }
     }
+
+    fun isSuccess() = status == Status.SUCCESS
 }
