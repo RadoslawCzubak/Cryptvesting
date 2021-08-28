@@ -3,6 +3,7 @@ package com.rczubak.cryptvesting.ui.dashboard
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -76,7 +77,15 @@ class DashboardFragment : Fragment() {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
                         val balance = "%.2f".format(it.data!!)
-                        binding.includeBalance.balanceTextView.text = "$balance $"
+                        binding.includeBalance.balanceTextView.apply {
+                            text = "$balance $"
+                            setTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    if (it.data >= 0) R.color.green_600 else R.color.pink_700
+                                )
+                            )
+                        }
                     }
                     Resource.Status.ERROR -> {
                         TODO()
