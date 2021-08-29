@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rczubak.cryptvesting.R
 import com.rczubak.cryptvesting.data.models.domain.WalletCoin
 import com.rczubak.cryptvesting.databinding.ItemCoinBinding
+import kotlin.math.pow
+import kotlin.math.round
 
 class DashboardAdapter : RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
 
@@ -17,6 +19,10 @@ class DashboardAdapter : RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
         fun bind(coin: WalletCoin) {
             binding.itemCoinAmount.text = coin.amount.toString()
             binding.itemCoinSymbol.text = coin.currencySymbol
+            binding.itemCoinValue.text =
+                if (coin.valueInUSD != null) "${
+                    round((coin.valueInUSD * 10.0.pow(6.0))) / 10.0.pow(6.0)
+                } $" else "N/D"
         }
     }
 
@@ -34,7 +40,7 @@ class DashboardAdapter : RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = data.size
 
-    fun updateData(wallet: ArrayList<WalletCoin>){
+    fun updateData(wallet: ArrayList<WalletCoin>) {
         data.clear()
         data.addAll(wallet)
         notifyDataSetChanged()

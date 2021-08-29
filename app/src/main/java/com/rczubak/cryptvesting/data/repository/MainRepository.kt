@@ -55,7 +55,9 @@ class MainRepository @Inject constructor(
                     walletCoins.map { it.currencySymbol to it.amount }
                         .toMap(), ArrayList(prices.data!!)
                 )
-            Resource.success(Wallet(walletCoins, value))
+            val walletCoinsWithUpdatedValues =
+                TransactionCalculator.calculateWalletCoinValues(walletCoins, prices.data!!)
+            Resource.success(Wallet(walletCoinsWithUpdatedValues, value))
         }
 }
 

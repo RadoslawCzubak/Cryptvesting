@@ -50,6 +50,26 @@ object TransactionCalculator {
         return moneyInCryptoNow
     }
 
+    fun calculateWalletCoinValues(
+        walletCoins: List<WalletCoin>,
+        prices: List<CryptoCurrencyModel>
+    ): List<WalletCoin> {
+        val walletCoinsWithUpdatedValues = ArrayList<WalletCoin>()
+        for (coin in walletCoins) {
+            val price = prices.find {
+                it.symbol == coin.currencySymbol
+            }?.price
+            if (price != null) {
+                walletCoinsWithUpdatedValues.add(
+                    coin.copy(valueInUSD = (price * coin.amount))
+                )
+            } else {
+                walletCoinsWithUpdatedValues.add(coin)
+            }
+        }
+        return walletCoinsWithUpdatedValues.toList()
+    }
+
     fun calculateWallet(transactions: ArrayList<TransactionModel>): ArrayList<WalletCoin> {
         val walletCoins = transactions.map {
             WalletCoin(it.amount, it.buyCoin)

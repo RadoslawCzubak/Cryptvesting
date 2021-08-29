@@ -7,5 +7,8 @@ import retrofit2.http.Query
 
 interface NomicsApi {
     @GET("/v1/currencies/ticker")
-    suspend fun getCryptocurrenciesCurrentInfo(@Query("ids") ids: String): Response<List<CryptoCurrencyModel>>
+    suspend fun getCryptocurrenciesCurrentInfo(
+        @Query("ids") ids: String,
+        @Query("interval") interval: String = "1h"
+    ): Response<List<CryptoCurrencyModel>>
 }
