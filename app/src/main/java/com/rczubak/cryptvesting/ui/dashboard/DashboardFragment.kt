@@ -59,10 +59,11 @@ class DashboardFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun setObservers() {
         viewModel.apply {
-            walletCoins.observe(viewLifecycleOwner) {
+            wallet.observe(viewLifecycleOwner) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
-                        adapter.updateData(it.data!!)
+                        adapter.updateData(ArrayList(it.data!!.walletCoins))
+                        binding.walletCurrentValueTextView.text = "${ "%.2f".format(it.data.walletValue)} $"
                     }
                     Resource.Status.LOADING -> {
                         TODO()

@@ -1,5 +1,6 @@
 package com.rczubak.cryptvesting.data.repository
 
+import com.rczubak.cryptvesting.data.models.domain.Wallet
 import com.rczubak.cryptvesting.data.network.services.Resource
 import com.rczubak.cryptvesting.utils.TransactionCalculator
 import kotlinx.coroutines.Dispatchers
@@ -38,4 +39,23 @@ class MainRepository @Inject constructor(
             )
             _profit.tryEmit(Resource.success(profit))
         }
+
+    suspend fun getWalletWithValue() =
+        withContext(Dispatchers.IO) {
+            val walletCoinsRepository = transactionsRepository.getWalletCoins()
+            if (!walletCoinsRepository.isSuccess())
+                return@withContext Resource.error("Prices error")
+            val walletCoins = walletCoinsRepository.data!!
+            val prices =
+                nomicsRepository.getCryptoCurrenciesState(walletCoins.map { it.currencySymbol })
+            if (!prices.isSuccess())
+                return@withContext Resource.error("Prices error")
+            val value =
+                TransactionCalculator.calculateCryptoValue(
+                    walletCoins.map { it.currencySymbol to it.amount }
+                        .toMap(), ArrayList(prices.data!!)
+                )
+            Resource.success(Wallet(walletCoins, value))
+        }
 }
+

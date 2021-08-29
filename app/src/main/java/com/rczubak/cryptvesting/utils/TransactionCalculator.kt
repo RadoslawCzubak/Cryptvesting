@@ -32,6 +32,14 @@ object TransactionCalculator {
                 }
             }
         }
+        val moneyInCryptoNow = calculateCryptoValue(cryptos, prices)
+        return moneyInCryptoNow + moneySpentOnCurrentCrypto
+    }
+
+    fun calculateCryptoValue(
+        cryptos: Map<String, Double>,
+        prices: ArrayList<CryptoCurrencyModel>
+    ): Double {
         var moneyInCryptoNow = 0.0
         for ((key, value) in cryptos) {
             val price = prices.find {
@@ -39,7 +47,7 @@ object TransactionCalculator {
             }?.price
             moneyInCryptoNow += value * price!!
         }
-        return moneyInCryptoNow + moneySpentOnCurrentCrypto
+        return moneyInCryptoNow
     }
 
     fun calculateWallet(transactions: ArrayList<TransactionModel>): ArrayList<WalletCoin> {

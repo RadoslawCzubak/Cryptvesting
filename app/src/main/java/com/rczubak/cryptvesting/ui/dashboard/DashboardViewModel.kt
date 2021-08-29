@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rczubak.cryptvesting.data.models.domain.WalletCoin
+import com.rczubak.cryptvesting.data.models.domain.Wallet
 import com.rczubak.cryptvesting.data.network.services.Resource
 import com.rczubak.cryptvesting.data.repository.MainRepository
 import com.rczubak.cryptvesting.data.repository.TransactionsRepository
-import com.rczubak.cryptvesting.utils.TransactionCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -23,25 +22,28 @@ class DashboardViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
-    private val _walletCoins = MutableLiveData<Resource<ArrayList<WalletCoin>>>()
-    val walletCoins: LiveData<Resource<ArrayList<WalletCoin>>> = _walletCoins
+    private val _wallet = MutableLiveData<Resource<Wallet>>()
+    val wallet: LiveData<Resource<Wallet>> = _wallet
     private val _profit = MutableLiveData<Resource<Double>>()
     val profit: LiveData<Resource<Double>> = _profit
 
     fun getWallet() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val transactions = transactionsRepository.getAllTransactions()
-                when (transactions.status) {
+                val wallet = mainRepository.getWalletWithValue()
+                when (wallet.status) {
                     Resource.Status.SUCCESS -> {
-                        val wallet = TransactionCalculator.calculateWallet(transactions.data!!)
-                        _walletCoins.postValue(Resource.success(wallet))
+                        _wallet.postValue(
+                            wallet
+                        )
                     }
                     Resource.Status.ERROR -> {
-                        _walletCoins.postValue(Resource.error("Transactions error"))
+                        _wallet.postValue(
+                            Resource.error("Transactions error")
+                        )
                     }
                     Resource.Status.LOADING -> {
-                        _walletCoins.postValue(Resource.loading())
+                        Resource.loading<Wallet>()
                     }
                 }
             }
