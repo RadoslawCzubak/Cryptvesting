@@ -4,19 +4,30 @@ import com.rczubak.cryptvesting.data.models.entities.CryptocurrencyEntity
 import com.squareup.moshi.Json
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.DateTimeParseException
 
 
 data class CryptoCurrencyModel(
     @Json(name = "name") val name: String,
     @Json(name = "currency") val symbol: String,
     @Json(name = "price") val price: Double,
-    @Json(name = "price_date") val price_date: String,
+    @Json(name = "price_date") val price_date: String?,
     val _priceCurrency: String?
 ) {
     val priceCurrency
         get() = _priceCurrency ?: "USD"
     val priceDate: LocalDateTime?
-        get() = LocalDateTime.parse(price_date, DateTimeFormatter.ISO_DATE_TIME)
+        get() {
+            return try {
+                if (price_date != null) {
+                    LocalDateTime.parse(price_date, DateTimeFormatter.ISO_DATE_TIME)
+                } else {
+                    null
+                }
+            } catch (e: DateTimeParseException) {
+                null
+            }
+        }
 
     constructor(crypto: CryptocurrencyEntity) : this(
         crypto.name,
