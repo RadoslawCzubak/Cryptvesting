@@ -19,8 +19,12 @@ class MainRepository @Inject constructor(
     )
     val profit: SharedFlow<Resource<Double>> = _profit
 
-    suspend fun getCurrentProfit() =
+    suspend fun getCurrentProfit(refresh: Boolean = true) =
         withContext(Dispatchers.IO) {
+            if (refresh) {
+                val ownedCrypto = transactionsRepository.getOwnedCrypto().data!!
+                nomicsRepository.getCryptoCurrenciesState(ownedCrypto, refresh)
+            }
             val transactionsResource = transactionsRepository.getAllTransactions()
             val ownedCryptoResource = transactionsRepository.getOwnedCrypto()
             if (!transactionsResource.isSuccess() && !ownedCryptoResource.isSuccess()) {

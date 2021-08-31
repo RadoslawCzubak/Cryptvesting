@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rczubak.cryptvesting.data.models.domain.Wallet
 import com.rczubak.cryptvesting.data.network.services.Resource
 import com.rczubak.cryptvesting.data.repository.MainRepository
+import com.rczubak.cryptvesting.data.repository.NomicsRepository
 import com.rczubak.cryptvesting.data.repository.TransactionsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +20,25 @@ import javax.inject.Inject
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
-    private val mainRepository: MainRepository
+    private val mainRepository: MainRepository,
+    private val nomicsRepository: NomicsRepository
 ) : ViewModel() {
 
     private val _wallet = MutableLiveData<Resource<Wallet>>()
     val wallet: LiveData<Resource<Wallet>> = _wallet
     private val _profit = MutableLiveData<Resource<Double>>()
     val profit: LiveData<Resource<Double>> = _profit
+
+    init {
+        refreshCrypto()
+    }
+
+    private fun refreshCrypto(){
+        viewModelScope.launch {
+            nomicsRepository.getCryptoCurrenciesState(transactionsRepository.getOwnedCrypto().data!!)
+            mainRepository.getCurrentProfit()
+        }
+    }
 
     fun getWallet() {
         viewModelScope.launch {
