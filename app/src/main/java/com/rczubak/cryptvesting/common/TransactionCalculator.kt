@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.utils
+package com.rczubak.cryptvesting.common
 
 import com.rczubak.cryptvesting.domain.model.CryptoCurrencyModel
 import com.rczubak.cryptvesting.domain.model.TransactionModel

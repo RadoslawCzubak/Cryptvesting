@@ -4,8 +4,8 @@ import com.rczubak.cryptvesting.data.database.transactions.TransactionsDao
 import com.rczubak.cryptvesting.domain.model.TransactionModel
 import com.rczubak.cryptvesting.domain.model.WalletCoin
 import com.rczubak.cryptvesting.data.database.entities.TransactionEntity
-import com.rczubak.cryptvesting.utils.Resource
-import com.rczubak.cryptvesting.utils.TransactionCalculator
+import com.rczubak.cryptvesting.common.Resource
+import com.rczubak.cryptvesting.common.TransactionCalculator
 import javax.inject.Inject
 
 class TransactionsRepository @Inject constructor(

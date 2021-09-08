@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.utils
+package com.rczubak.cryptvesting.common
 
 fun prepareCommaSeparatedQueryParameters(listOfParameters: List<String>): String {
     var commaSeparatedParams = ""

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.rczubak.cryptvesting.domain.model.CryptoCurrencyModel
-import com.rczubak.cryptvesting.utils.roomUtils.Converters
+import com.rczubak.cryptvesting.common.roomUtils.Converters
 import org.threeten.bp.LocalDateTime
 
 @Entity(tableName = "cryptocurrencies")

@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.utils.roomUtils
+package com.rczubak.cryptvesting.common.roomUtils
 
 import androidx.room.TypeConverter
 import org.threeten.bp.LocalDateTime

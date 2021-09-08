@@ -1,8 +1,8 @@
 package com.rczubak.cryptvesting.data.repository
 
 import com.rczubak.cryptvesting.domain.model.Wallet
-import com.rczubak.cryptvesting.utils.Resource
-import com.rczubak.cryptvesting.utils.TransactionCalculator
+import com.rczubak.cryptvesting.common.Resource
+import com.rczubak.cryptvesting.common.TransactionCalculator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow

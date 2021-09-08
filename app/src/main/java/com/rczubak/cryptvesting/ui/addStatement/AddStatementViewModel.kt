@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rczubak.cryptvesting.domain.model.TransactionModel
 import com.rczubak.cryptvesting.data.repository.TransactionsRepository
-import com.rczubak.cryptvesting.utils.Event
-import com.rczubak.cryptvesting.utils.XlsReader
+import com.rczubak.cryptvesting.common.Event
+import com.rczubak.cryptvesting.common.XlsReader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
