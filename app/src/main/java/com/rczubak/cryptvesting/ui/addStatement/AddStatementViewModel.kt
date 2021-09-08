@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rczubak.cryptvesting.domain.model.TransactionModel
-import com.rczubak.cryptvesting.data.repository.TransactionsRepository
 import com.rczubak.cryptvesting.common.Event
 import com.rczubak.cryptvesting.common.XlsReader
+import com.rczubak.cryptvesting.domain.model.TransactionModel
+import com.rczubak.cryptvesting.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddStatementViewModel @Inject constructor(
-    private val transactionsRepository: TransactionsRepository
+    private val mainRepository: MainRepository
 ) : ViewModel() {
 
     private val _transactionsToAdd = MutableLiveData<ArrayList<TransactionModel>>()
@@ -30,11 +30,11 @@ class AddStatementViewModel @Inject constructor(
         _transactionsToAdd.postValue(readedTransactions)
     }
 
-    fun saveTransactions(){
+    fun saveTransactions() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 if (transactionsToAdd.value != null) {
-                    transactionsRepository.addAllTransactions(transactionsToAdd.value!!)
+                    mainRepository.addAllTransactions(transactionsToAdd.value!!)
                     _transactionsSaveStatus.postValue(Event(true))
                 }
             }
