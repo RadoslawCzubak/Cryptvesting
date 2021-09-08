@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.di.modules
+package com.rczubak.cryptvesting.di
 
 import android.content.Context
 import androidx.room.Room
@@ -21,7 +21,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
-final class AppModule {
+object AppModule {
     @Provides
     fun provideTransactionsDao(@ApplicationContext applicationContext: Context): TransactionsDao {
         val db = Room.databaseBuilder(
