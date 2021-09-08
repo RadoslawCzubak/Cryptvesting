@@ -9,6 +9,9 @@ import com.rczubak.cryptvesting.data.database.transactions.TransactionsDao
 import com.rczubak.cryptvesting.data.database.transactions.TransactionsDatabase
 import com.rczubak.cryptvesting.data.remote.ApiKeyInterceptor
 import com.rczubak.cryptvesting.data.remote.services.NomicsApi
+import com.rczubak.cryptvesting.data.repository.MainRepositoryImpl
+import com.rczubak.cryptvesting.domain.repository.MainRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,4 +62,11 @@ object AppModule {
             .build()
         return retrofit.create(NomicsApi::class.java)
     }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class AppBindingModule {
+    @Binds
+    abstract fun bindMainRepository(mainRepositoryImpl: MainRepositoryImpl): MainRepository
 }

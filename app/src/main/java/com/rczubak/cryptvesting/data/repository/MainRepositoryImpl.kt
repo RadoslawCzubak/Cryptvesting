@@ -18,7 +18,7 @@ class MainRepositoryImpl @Inject constructor(
     private val _profit: MutableSharedFlow<Resource<Double>> = MutableSharedFlow(
         replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-    val profit: SharedFlow<Resource<Double>> = _profit
+    override val profit: SharedFlow<Resource<Double>> = _profit
 
     override suspend fun getCurrentProfit(refresh: Boolean) =
         withContext(Dispatchers.IO) {
