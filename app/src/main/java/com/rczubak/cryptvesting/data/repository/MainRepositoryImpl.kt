@@ -3,6 +3,7 @@ package com.rczubak.cryptvesting.data.repository
 import com.rczubak.cryptvesting.domain.model.Wallet
 import com.rczubak.cryptvesting.common.Resource
 import com.rczubak.cryptvesting.common.TransactionCalculator
+import com.rczubak.cryptvesting.domain.repository.MainRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,16 +11,16 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MainRepository @Inject constructor(
+class MainRepositoryImpl @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val nomicsRepository: NomicsRepository
-) {
+): MainRepository {
     private val _profit: MutableSharedFlow<Resource<Double>> = MutableSharedFlow(
         replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val profit: SharedFlow<Resource<Double>> = _profit
 
-    suspend fun getCurrentProfit(refresh: Boolean = true) =
+    override suspend fun getCurrentProfit(refresh: Boolean) =
         withContext(Dispatchers.IO) {
             if (refresh) {
                 val ownedCrypto = transactionsRepository.getOwnedCrypto().data!!
@@ -44,7 +45,7 @@ class MainRepository @Inject constructor(
             _profit.tryEmit(Resource.success(profit))
         }
 
-    suspend fun getWalletWithValue() =
+    override suspend fun getWalletWithValue() =
         withContext(Dispatchers.IO) {
             val walletCoinsRepository = transactionsRepository.getWalletCoins()
             if (!walletCoinsRepository.isSuccess())
