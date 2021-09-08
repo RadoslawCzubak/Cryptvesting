@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rczubak.cryptvesting.data.models.domain.Wallet
-import com.rczubak.cryptvesting.data.network.services.Resource
+import com.rczubak.cryptvesting.domain.model.Wallet
+import com.rczubak.cryptvesting.utils.Resource
 import com.rczubak.cryptvesting.data.repository.MainRepository
 import com.rczubak.cryptvesting.data.repository.NomicsRepository
 import com.rczubak.cryptvesting.data.repository.TransactionsRepository

@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rczubak.cryptvesting.R
-import com.rczubak.cryptvesting.data.network.services.Resource
+import com.rczubak.cryptvesting.utils.Resource
 import com.rczubak.cryptvesting.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi

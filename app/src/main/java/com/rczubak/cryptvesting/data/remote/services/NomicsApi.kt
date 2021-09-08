@@ -1,6 +1,6 @@
-package com.rczubak.cryptvesting.data.network.services
+package com.rczubak.cryptvesting.data.remote.services
 
-import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
+import com.rczubak.cryptvesting.domain.model.CryptoCurrencyModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

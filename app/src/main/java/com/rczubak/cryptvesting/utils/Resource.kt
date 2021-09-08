@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.data.network.services
+package com.rczubak.cryptvesting.utils
 
 class Resource<out T>(val status: Status, val code: Int, val data: T?, val message: String?) {
     enum class Status {

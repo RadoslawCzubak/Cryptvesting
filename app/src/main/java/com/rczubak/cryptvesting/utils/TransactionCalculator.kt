@@ -1,9 +1,9 @@
 package com.rczubak.cryptvesting.utils
 
-import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
-import com.rczubak.cryptvesting.data.models.domain.TransactionModel
-import com.rczubak.cryptvesting.data.models.domain.TransactionType
-import com.rczubak.cryptvesting.data.models.domain.WalletCoin
+import com.rczubak.cryptvesting.domain.model.CryptoCurrencyModel
+import com.rczubak.cryptvesting.domain.model.TransactionModel
+import com.rczubak.cryptvesting.domain.model.TransactionType
+import com.rczubak.cryptvesting.domain.model.WalletCoin
 
 object TransactionCalculator {
     fun calculateProfitInUSD(

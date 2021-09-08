@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.data.network
+package com.rczubak.cryptvesting.data.remote
 
 import com.rczubak.cryptvesting.BuildConfig
 import okhttp3.Interceptor

@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.data.models.domain
+package com.rczubak.cryptvesting.domain.model
 
 data class WalletCoin(
     val amount: Double,

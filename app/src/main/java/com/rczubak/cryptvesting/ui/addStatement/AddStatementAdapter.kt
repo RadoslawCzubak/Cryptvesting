@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rczubak.cryptvesting.R
-import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
-import com.rczubak.cryptvesting.data.models.domain.TransactionModel
+import com.rczubak.cryptvesting.domain.model.TransactionModel
 import com.rczubak.cryptvesting.databinding.ItemTransactionBinding
 
 class AddStatementAdapter(private val onRecyclerViewEmpty: () -> Unit) : RecyclerView.Adapter<AddStatementAdapter.AddStatementViewHolder>() {

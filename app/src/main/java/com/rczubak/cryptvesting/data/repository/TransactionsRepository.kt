@@ -1,10 +1,10 @@
 package com.rczubak.cryptvesting.data.repository
 
-import com.rczubak.cryptvesting.data.dao.transactions.TransactionsDao
-import com.rczubak.cryptvesting.data.models.domain.TransactionModel
-import com.rczubak.cryptvesting.data.models.domain.WalletCoin
-import com.rczubak.cryptvesting.data.models.entities.TransactionEntity
-import com.rczubak.cryptvesting.data.network.services.Resource
+import com.rczubak.cryptvesting.data.database.transactions.TransactionsDao
+import com.rczubak.cryptvesting.domain.model.TransactionModel
+import com.rczubak.cryptvesting.domain.model.WalletCoin
+import com.rczubak.cryptvesting.data.database.entities.TransactionEntity
+import com.rczubak.cryptvesting.utils.Resource
 import com.rczubak.cryptvesting.utils.TransactionCalculator
 import javax.inject.Inject
 

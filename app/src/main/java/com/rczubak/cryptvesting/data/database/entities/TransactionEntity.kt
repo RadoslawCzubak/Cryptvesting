@@ -1,11 +1,11 @@
-package com.rczubak.cryptvesting.data.models.entities
+package com.rczubak.cryptvesting.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.rczubak.cryptvesting.data.models.domain.TransactionModel
-import com.rczubak.cryptvesting.data.models.domain.TransactionType
+import com.rczubak.cryptvesting.domain.model.TransactionModel
+import com.rczubak.cryptvesting.domain.model.TransactionType
 import com.rczubak.cryptvesting.utils.roomUtils.Converters
 import org.threeten.bp.LocalDateTime
 

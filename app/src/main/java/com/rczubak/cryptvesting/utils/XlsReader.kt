@@ -1,10 +1,7 @@
 package com.rczubak.cryptvesting.utils
 
-import android.content.Context
-import android.util.Log
-import com.rczubak.cryptvesting.data.models.domain.TransactionModel
+import com.rczubak.cryptvesting.domain.model.TransactionModel
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import timber.log.Timber
 import java.io.InputStream
 
 class XlsReader {

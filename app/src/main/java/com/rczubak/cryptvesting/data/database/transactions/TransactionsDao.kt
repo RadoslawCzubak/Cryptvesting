@@ -1,10 +1,10 @@
-package com.rczubak.cryptvesting.data.dao.transactions
+package com.rczubak.cryptvesting.data.database.transactions
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.rczubak.cryptvesting.data.models.entities.TransactionEntity
+import com.rczubak.cryptvesting.data.database.entities.TransactionEntity
 
 @Dao
 interface TransactionsDao {

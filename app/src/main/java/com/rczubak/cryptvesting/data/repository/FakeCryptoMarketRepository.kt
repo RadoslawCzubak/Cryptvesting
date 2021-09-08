@@ -1,6 +1,6 @@
 package com.rczubak.cryptvesting.data.repository
 
-import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
+import com.rczubak.cryptvesting.domain.model.CryptoCurrencyModel
 import org.threeten.bp.LocalDateTime
 
 class FakeCryptoMarketRepository {

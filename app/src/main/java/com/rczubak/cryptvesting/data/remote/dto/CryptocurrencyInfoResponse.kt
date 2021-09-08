@@ -1,4 +1,4 @@
-package com.rczubak.cryptvesting.data.models.network
+package com.rczubak.cryptvesting.data.remote.dto
 
 import com.squareup.moshi.Json
 

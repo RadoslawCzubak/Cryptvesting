@@ -1,7 +1,7 @@
-package com.rczubak.cryptvesting.data.models.domain
+package com.rczubak.cryptvesting.domain.model
 
 import androidx.room.PrimaryKey
-import com.rczubak.cryptvesting.data.models.entities.TransactionEntity
+import com.rczubak.cryptvesting.data.database.entities.TransactionEntity
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 

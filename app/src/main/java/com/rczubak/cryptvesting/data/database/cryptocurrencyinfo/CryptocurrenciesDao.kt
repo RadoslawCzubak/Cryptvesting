@@ -1,11 +1,10 @@
-package com.rczubak.cryptvesting.data.dao.cryptocurrencyinfo
+package com.rczubak.cryptvesting.data.database.cryptocurrencyinfo
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
-import com.rczubak.cryptvesting.data.models.entities.CryptocurrencyEntity
+import com.rczubak.cryptvesting.data.database.entities.CryptocurrencyEntity
 
 @Dao
 interface CryptocurrenciesDao {

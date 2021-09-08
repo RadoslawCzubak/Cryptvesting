@@ -1,6 +1,6 @@
-package com.rczubak.cryptvesting.data.models.domain
+package com.rczubak.cryptvesting.domain.model
 
-import com.rczubak.cryptvesting.data.models.entities.CryptocurrencyEntity
+import com.rczubak.cryptvesting.data.database.entities.CryptocurrencyEntity
 import com.squareup.moshi.Json
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter

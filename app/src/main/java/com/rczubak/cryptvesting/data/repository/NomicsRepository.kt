@@ -1,10 +1,10 @@
 package com.rczubak.cryptvesting.data.repository
 
-import com.rczubak.cryptvesting.data.dao.cryptocurrencyinfo.CryptocurrenciesDao
-import com.rczubak.cryptvesting.data.models.domain.CryptoCurrencyModel
-import com.rczubak.cryptvesting.data.models.entities.CryptocurrencyEntity
-import com.rczubak.cryptvesting.data.network.services.NomicsApi
-import com.rczubak.cryptvesting.data.network.services.Resource
+import com.rczubak.cryptvesting.data.database.cryptocurrencyinfo.CryptocurrenciesDao
+import com.rczubak.cryptvesting.domain.model.CryptoCurrencyModel
+import com.rczubak.cryptvesting.data.database.entities.CryptocurrencyEntity
+import com.rczubak.cryptvesting.data.remote.services.NomicsApi
+import com.rczubak.cryptvesting.utils.Resource
 import com.rczubak.cryptvesting.utils.prepareCommaSeparatedQueryParameters
 import timber.log.Timber
 import javax.inject.Inject

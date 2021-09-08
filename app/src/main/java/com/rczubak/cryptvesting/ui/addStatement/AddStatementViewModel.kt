@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rczubak.cryptvesting.data.models.domain.TransactionModel
+import com.rczubak.cryptvesting.domain.model.TransactionModel
 import com.rczubak.cryptvesting.data.repository.TransactionsRepository
 import com.rczubak.cryptvesting.utils.Event
 import com.rczubak.cryptvesting.utils.XlsReader
@@ -12,7 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.apache.poi.ss.formula.functions.Even
 import java.io.InputStream
 import javax.inject.Inject
 
