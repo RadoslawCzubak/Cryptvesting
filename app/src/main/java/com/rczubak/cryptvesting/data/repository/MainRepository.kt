@@ -27,7 +27,7 @@ class MainRepository @Inject constructor(
             }
             val transactionsResource = transactionsRepository.getAllTransactions()
             val ownedCryptoResource = transactionsRepository.getOwnedCrypto()
-            if (!transactionsResource.isSuccess() && !ownedCryptoResource.isSuccess()) {
+            if (!transactionsResource.isSuccess() && !ownedCryptoResource.isSuccess() && ownedCryptoResource.data!!.isEmpty()) {
                 _profit.tryEmit(Resource.error("Error in transactions"))
                 return@withContext
             }
