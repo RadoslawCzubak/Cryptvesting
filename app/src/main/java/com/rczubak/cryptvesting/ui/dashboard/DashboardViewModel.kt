@@ -31,8 +31,8 @@ class DashboardViewModel @Inject constructor(
 
     private fun refreshCrypto(){
         viewModelScope.launch {
-            mainRepository.getCryptoCurrenciesState(mainRepository.getOwnedCrypto().data!!)
             mainRepository.getCurrentProfit()
+            mainRepository.getCryptoCurrenciesState(mainRepository.getOwnedCrypto().data!!)
         }
     }
 

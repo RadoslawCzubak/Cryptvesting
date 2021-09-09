@@ -45,7 +45,11 @@ object TransactionCalculator {
             val price = prices.find {
                 it.symbol == key
             }?.price
-            moneyInCryptoNow += value * price!!
+            try {
+                moneyInCryptoNow += value * price!!
+            } catch (e: NullPointerException) {
+                throw IllegalArgumentException("Available prices don't fit to owned crypto!")
+            }
         }
         return moneyInCryptoNow
     }

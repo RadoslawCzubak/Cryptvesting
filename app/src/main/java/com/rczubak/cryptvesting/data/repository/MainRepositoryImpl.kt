@@ -1,6 +1,6 @@
 package com.rczubak.cryptvesting.data.repository
 
-import com.rczubak.cryptvesting.domain.model.Wallet
+import com.rczubak.cryptvesting.common.Error
 import com.rczubak.cryptvesting.common.Resource
 import com.rczubak.cryptvesting.common.TransactionCalculator
 import com.rczubak.cryptvesting.common.prepareCommaSeparatedQueryParameters
@@ -11,6 +11,7 @@ import com.rczubak.cryptvesting.data.database.transactions.TransactionsDao
 import com.rczubak.cryptvesting.data.remote.services.NomicsApi
 import com.rczubak.cryptvesting.domain.model.CryptoCurrencyModel
 import com.rczubak.cryptvesting.domain.model.TransactionModel
+import com.rczubak.cryptvesting.domain.model.Wallet
 import com.rczubak.cryptvesting.domain.model.WalletCoin
 import com.rczubak.cryptvesting.domain.repository.MainRepository
 import kotlinx.coroutines.Dispatchers
@@ -18,44 +19,54 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 
 class MainRepositoryImpl @Inject constructor(
-    private val api: NomicsApi,
+    private val nomicsApi: NomicsApi,
     private val cryptocurrenciesDao: CryptocurrenciesDao,
     private val transactionsDao: TransactionsDao
-): MainRepository {
+) : MainRepository {
     private val _profit: MutableSharedFlow<Resource<Double>> = MutableSharedFlow(
         replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     override val profit: SharedFlow<Resource<Double>> = _profit
 
-    override suspend fun getCurrentProfit(refresh: Boolean) =
-        withContext(Dispatchers.IO) {
-            if (refresh) {
-                val ownedCrypto = getOwnedCrypto().data!!
-                getCryptoCurrenciesState(ownedCrypto, refresh)
-            }
-            val transactionsResource = getAllTransactions()
-            val ownedCryptoResource = getOwnedCrypto()
-            if (!transactionsResource.isSuccess() && !ownedCryptoResource.isSuccess() && ownedCryptoResource.data!!.isEmpty()) {
-                _profit.tryEmit(Resource.error("Error in transactions"))
-                return@withContext
-            }
-            val pricesResource =
-                getCryptoCurrenciesState(ownedCryptoResource.data!!)
-            if (!pricesResource.isSuccess()) {
-                _profit.tryEmit(Resource.error("Prices error."))
-                return@withContext
-            }
-            val profit = TransactionCalculator.calculateProfitInUSD(
-                transactionsResource.data!!,
-                ArrayList(pricesResource.data!!)
-            )
-            _profit.tryEmit(Resource.success(profit))
+    override suspend fun getCurrentProfit(refresh: Boolean): Resource<Double> {
+        val ownedCryptoSymbols = transactionsDao.getOwnedCrypto()
+        if (ownedCryptoSymbols.isEmpty()) {
+            _profit.tryEmit(Resource.error(code = Error.NO_CRYPTO_OWNED.code))
+            return Resource.error(code = Error.NO_CRYPTO_OWNED.code)
         }
+        if (refresh) {
+            val response = nomicsApi.getCryptocurrenciesCurrentInfo(
+                prepareCommaSeparatedQueryParameters(
+                    ownedCryptoSymbols
+                )
+            )
+            if (response.isSuccessful)
+                cryptocurrenciesDao.insertAll(response.body()!!.map { CryptocurrencyEntity(it) })
+            else {
+                _profit.tryEmit(Resource.error(code = Error.INTERNET_ERROR.code))
+                return Resource.error(code = Error.INTERNET_ERROR.code)
+            }
+        }
+        val prices = cryptocurrenciesDao.getCryptoCurrenciesStateBySymbol(ownedCryptoSymbols).map {
+            CryptoCurrencyModel(it)
+        }
+        val transactions = transactionsDao.getAllTransactions().map { TransactionModel(it) }
+        var currentProfit: Double
+        try {
+            currentProfit = TransactionCalculator.calculateProfitInUSD(
+                ArrayList(transactions), ArrayList(prices)
+            )
+        } catch (e: IllegalArgumentException) {
+            _profit.tryEmit(Resource.error(code = Error.NO_PRICES_FOR_ALL_OWNED_CRYPTO.code))
+            return Resource.error(code = Error.NO_PRICES_FOR_ALL_OWNED_CRYPTO.code)
+        }
+        _profit.tryEmit(Resource.success(currentProfit))
+        return Resource.success(currentProfit)
+    }
 
     override suspend fun getWalletWithValue() =
         withContext(Dispatchers.IO) {
@@ -67,26 +78,32 @@ class MainRepositoryImpl @Inject constructor(
                 getCryptoCurrenciesState(walletCoins.map { it.currencySymbol })
             if (!prices.isSuccess())
                 return@withContext Resource.error("Prices error")
-            val value =
-                TransactionCalculator.calculateCryptoValue(
-                    walletCoins.map { it.currencySymbol to it.amount }
-                        .toMap(), ArrayList(prices.data!!)
-                )
+            var value: Double
+            try {
+                value =
+                    TransactionCalculator.calculateCryptoValue(
+                        walletCoins.map { it.currencySymbol to it.amount }
+                            .toMap(), ArrayList(prices.data!!)
+                    )
+            } catch (e: IllegalArgumentException) {
+                return@withContext Resource.error("")
+            }
             val walletCoinsWithUpdatedValues =
                 TransactionCalculator.calculateWalletCoinValues(walletCoins, prices.data!!)
             Resource.success(Wallet(walletCoinsWithUpdatedValues, value))
         }
 
     override suspend fun syncStatesOfAllOwnedCrypto(ownedCryptoSymbols: List<String>) {
-        val idsQueryParam = prepareCommaSeparatedQueryParameters(ownedCryptoSymbols)
-        val response = api.getCryptocurrenciesCurrentInfo(idsQueryParam)
-        if (response.isSuccessful && response.body()?.isNotEmpty() == true) {
-            val cryptocurrencies = response.body()
-            cryptocurrenciesDao.insertAll(cryptocurrencies!!.map {
-                CryptocurrencyEntity(it)
-            })
-        }
-        Timber.d(cryptocurrenciesDao.getAllCryptocurrenciesState().toString())
+
+//        val idsQueryParam = prepareCommaSeparatedQueryParameters(ownedCryptoSymbols)
+//        val response = nomicsApi.getCryptocurrenciesCurrentInfo(idsQueryParam)
+//        if (response.isSuccessful && response.body()?.isNotEmpty() == true) {
+//            val cryptocurrencies = response.body()
+//            cryptocurrenciesDao.insertAll(cryptocurrencies!!.map {
+//                CryptocurrencyEntity(it)
+//            })
+//        }
+//        Timber.d(cryptocurrenciesDao.getAllCryptocurrenciesState().toString())
     }
 
     override suspend fun getCryptoCurrenciesState(
@@ -97,10 +114,6 @@ class MainRepositoryImpl @Inject constructor(
             syncStatesOfAllOwnedCrypto(cryptoSymbols)
         }
         var cryptoStates = cryptocurrenciesDao.getCryptoCurrenciesStateBySymbol(cryptoSymbols)
-        if (cryptoStates.isEmpty()) {
-            syncStatesOfAllOwnedCrypto(cryptoSymbols)
-            cryptoStates = cryptocurrenciesDao.getCryptoCurrenciesStateBySymbol(cryptoSymbols)
-        }
         return Resource.success(cryptoStates.map { CryptoCurrencyModel(it) })
     }
 

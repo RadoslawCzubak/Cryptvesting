@@ -14,6 +14,7 @@ import com.rczubak.cryptvesting.common.Resource
 import com.rczubak.cryptvesting.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
@@ -37,8 +38,8 @@ class DashboardFragment : Fragment() {
         setHasOptionsMenu(true)
         setupRecyclerView()
         setObservers()
-        viewModel.getWallet()
         viewModel.observeProfit()
+        viewModel.getWallet()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -66,10 +67,10 @@ class DashboardFragment : Fragment() {
                         binding.walletCurrentValueTextView.text = "${ "%.2f".format(it.data.walletValue)} $"
                     }
                     Resource.Status.LOADING -> {
-                        TODO()
+                        Timber.d("Loading")
                     }
                     Resource.Status.ERROR -> {
-                        TODO()
+                        Timber.d("Error")
                     }
                 }
             }
@@ -89,10 +90,10 @@ class DashboardFragment : Fragment() {
                         }
                     }
                     Resource.Status.ERROR -> {
-                        TODO()
+
                     }
                     Resource.Status.LOADING -> {
-                        TODO()
+
                     }
 
                 }
