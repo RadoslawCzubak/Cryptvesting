@@ -19,6 +19,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -93,35 +94,10 @@ class MainRepositoryImpl @Inject constructor(
             Resource.success(Wallet(walletCoinsWithUpdatedValues, value))
         }
 
-    override suspend fun syncStatesOfAllOwnedCrypto(ownedCryptoSymbols: List<String>) {
-
-//        val idsQueryParam = prepareCommaSeparatedQueryParameters(ownedCryptoSymbols)
-//        val response = nomicsApi.getCryptocurrenciesCurrentInfo(idsQueryParam)
-//        if (response.isSuccessful && response.body()?.isNotEmpty() == true) {
-//            val cryptocurrencies = response.body()
-//            cryptocurrenciesDao.insertAll(cryptocurrencies!!.map {
-//                CryptocurrencyEntity(it)
-//            })
-//        }
-//        Timber.d(cryptocurrenciesDao.getAllCryptocurrenciesState().toString())
-    }
-
-    override suspend fun getCryptoCurrenciesState(
-        cryptoSymbols: List<String>,
-        refresh: Boolean
-    ): Resource<List<CryptoCurrencyModel>> {
-        if (refresh) {
-            syncStatesOfAllOwnedCrypto(cryptoSymbols)
-        }
+    private suspend fun getCryptoCurrenciesState(
+        cryptoSymbols: List<String>): Resource<List<CryptoCurrencyModel>> {
         var cryptoStates = cryptocurrenciesDao.getCryptoCurrenciesStateBySymbol(cryptoSymbols)
         return Resource.success(cryptoStates.map { CryptoCurrencyModel(it) })
-    }
-
-    override suspend fun getAllTransactions(): Resource<ArrayList<TransactionModel>> {
-        return Resource.success(
-            ArrayList(
-                transactionsDao.getAllTransactions().map { TransactionModel(it) })
-        )
     }
 
     override suspend fun addAllTransactions(transactions: ArrayList<TransactionModel>): Resource<Nothing> {
@@ -129,11 +105,7 @@ class MainRepositoryImpl @Inject constructor(
         return Resource.success()
     }
 
-    override suspend fun getOwnedCrypto(): Resource<List<String>> {
-        return Resource.success(transactionsDao.getOwnedCrypto())
-    }
-
-    override suspend fun getWalletCoins(): Resource<List<WalletCoin>> {
+    private suspend fun getWalletCoins(): Resource<List<WalletCoin>> {
         val transactions = transactionsDao.getAllTransactions()
         val walletCoins =
             TransactionCalculator.calculateWallet(ArrayList(transactions.map { TransactionModel(it) }))
