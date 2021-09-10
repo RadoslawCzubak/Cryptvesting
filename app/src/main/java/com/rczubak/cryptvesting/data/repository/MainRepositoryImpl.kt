@@ -19,8 +19,10 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.withContext
-import timber.log.Timber
+import java.sql.SQLException
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 class MainRepositoryImpl @Inject constructor(
@@ -71,45 +73,52 @@ class MainRepositoryImpl @Inject constructor(
 
     override suspend fun getWalletWithValue() =
         withContext(Dispatchers.IO) {
-            val walletCoinsRepository = getWalletCoins()
-            if (!walletCoinsRepository.isSuccess())
-                return@withContext Resource.error("Prices error")
-            val walletCoins = walletCoinsRepository.data!!
-            val prices =
-                getCryptoCurrenciesState(walletCoins.map { it.currencySymbol })
-            if (!prices.isSuccess())
-                return@withContext Resource.error("Prices error")
-            var value: Double
+            var walletCoins: List<WalletCoin>
+            var prices: List<CryptoCurrencyModel>
             try {
-                value =
-                    TransactionCalculator.calculateCryptoValue(
-                        walletCoins.map { it.currencySymbol to it.amount }
-                            .toMap(), ArrayList(prices.data!!)
-                    )
+                walletCoins = getWalletCoins()
+                prices =
+                    getCryptoCurrenciesState(walletCoins.map { it.currencySymbol })
+            } catch (e: SQLException) {
+                return@withContext Resource.error(code = Error.DATABASE_READ_ERROR.code)
+            }
+
+            val value: Double = try {
+                TransactionCalculator.calculateCryptoValue(
+                    walletCoins.map { it.currencySymbol to it.amount }
+                        .toMap(), ArrayList(prices)
+                )
             } catch (e: IllegalArgumentException) {
-                return@withContext Resource.error("")
+                return@withContext Resource.error(code = Error.NO_PRICES_FOR_ALL_OWNED_CRYPTO.code)
             }
             val walletCoinsWithUpdatedValues =
-                TransactionCalculator.calculateWalletCoinValues(walletCoins, prices.data!!)
+                TransactionCalculator.calculateWalletCoinValues(walletCoins, prices)
             Resource.success(Wallet(walletCoinsWithUpdatedValues, value))
         }
 
-    private suspend fun getCryptoCurrenciesState(
-        cryptoSymbols: List<String>): Resource<List<CryptoCurrencyModel>> {
-        var cryptoStates = cryptocurrenciesDao.getCryptoCurrenciesStateBySymbol(cryptoSymbols)
-        return Resource.success(cryptoStates.map { CryptoCurrencyModel(it) })
-    }
-
     override suspend fun addAllTransactions(transactions: ArrayList<TransactionModel>): Resource<Nothing> {
-        transactionsDao.addAllTransactions(transactions.map { TransactionEntity(it) })
+        try {
+            transactionsDao.addAllTransactions(transactions.map { TransactionEntity(it) })
+        } catch (e: SQLException) {
+            return Resource.error(code = Error.DATABASE_WRITE_ERROR.code)
+        }
         return Resource.success()
     }
 
-    private suspend fun getWalletCoins(): Resource<List<WalletCoin>> {
+    private suspend fun getCryptoCurrenciesState(
+        cryptoSymbols: List<String>
+    ): List<CryptoCurrencyModel> {
+        val cryptoStates = cryptocurrenciesDao.getCryptoCurrenciesStateBySymbol(cryptoSymbols)
+        return cryptoStates.map { CryptoCurrencyModel(it) }
+    }
+
+    private suspend fun getWalletCoins(): List<WalletCoin> {
         val transactions = transactionsDao.getAllTransactions()
-        val walletCoins =
-            TransactionCalculator.calculateWallet(ArrayList(transactions.map { TransactionModel(it) }))
-        return Resource.success(walletCoins)
+        return TransactionCalculator.calculateWallet(ArrayList(transactions.map {
+            TransactionModel(
+                it
+            )
+        }))
     }
 }
 
