@@ -31,7 +31,10 @@ class DashboardViewModel @Inject constructor(
 
     private fun refreshCrypto(){
         viewModelScope.launch {
-            mainRepository.getCurrentProfit()
+            withContext(Dispatchers.IO) {
+                mainRepository.getCurrentProfit()
+                getWallet()
+            }
         }
     }
 

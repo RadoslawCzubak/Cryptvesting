@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.rczubak.cryptvesting.R
+import com.rczubak.cryptvesting.common.Error
 import com.rczubak.cryptvesting.common.Resource
 import com.rczubak.cryptvesting.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,7 +66,8 @@ class DashboardFragment : Fragment() {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
                         adapter.updateData(ArrayList(it.data!!.walletCoins))
-                        binding.walletCurrentValueTextView.text = "${ "%.2f".format(it.data.walletValue)} $"
+                        binding.walletCurrentValueTextView.text =
+                            "${"%.2f".format(it.data.walletValue)} $"
                     }
                     Resource.Status.LOADING -> {
                         Timber.d("Loading")
@@ -78,28 +81,30 @@ class DashboardFragment : Fragment() {
             profit.observe(viewLifecycleOwner) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
-                        val balance = "%.2f".format(it.data!!)
-                        binding.includeBalance.balanceTextView.apply {
-                            text = "$balance $"
-                            setTextColor(
-                                ContextCompat.getColor(
-                                    context,
-                                    if (it.data >= 0) R.color.green_600 else R.color.pink_700
-                                )
-                            )
-                        }
+                        setBalance(it.data!!)
                     }
                     Resource.Status.ERROR -> {
-
+                        when (it.code) {
+                            Error.NO_CRYPTO_OWNED.code -> onNoCrypto()
+                            else -> onUnknownError()
+                        }
                     }
                     Resource.Status.LOADING -> {
-
                     }
-
                 }
             }
         }
     }
+
+    private fun onUnknownError() {
+        Snackbar.make(requireView(), "Unexpected error occurred", Snackbar.LENGTH_SHORT)
+    }
+
+    private fun onNoCrypto() {
+        setBalance(0.0)
+        Snackbar.make(requireView(), "You have no coins in your wallet!", Snackbar.LENGTH_SHORT)
+    }
+
 
     private fun navigateToAddStatementFragment() {
         val action = DashboardFragmentDirections.actionDashboardFragmentToAddStatementFragment()
@@ -110,5 +115,19 @@ class DashboardFragment : Fragment() {
         adapter = DashboardAdapter()
         binding.walletRv.adapter = adapter
         binding.walletRv.layoutManager = LinearLayoutManager(context)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setBalance(balance: Double) {
+        binding.includeBalance.balanceTextView.apply {
+            val balanceString = "%.2f".format(balance)
+            text = "$balanceString $"
+            setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (balance >= 0) R.color.green_600 else R.color.pink_700
+                )
+            )
+        }
     }
 }
