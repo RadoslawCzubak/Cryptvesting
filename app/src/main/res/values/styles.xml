@@ -15,4 +15,9 @@
     <style name="ToolbarColored" parent="Widget.AppCompat.ActionBar">
         <item name="colorControlNormal">@color/white</item>
     </style>
+
+    <style name="ItemLabel">
+        <item name="fontFamily">@font/lato_bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

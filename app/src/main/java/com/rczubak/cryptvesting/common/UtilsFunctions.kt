@@ -1,5 +1,8 @@
 package com.rczubak.cryptvesting.common
 
+import android.content.Context
+import android.util.DisplayMetrics
+
 fun prepareCommaSeparatedQueryParameters(listOfParameters: List<String>): String {
     var commaSeparatedParams = ""
     listOfParameters.forEachIndexed { index, s ->
@@ -10,3 +13,5 @@ fun prepareCommaSeparatedQueryParameters(listOfParameters: List<String>): String
     }
     return commaSeparatedParams
 }
+
+fun Int.toPx(context: Context) = this * context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT

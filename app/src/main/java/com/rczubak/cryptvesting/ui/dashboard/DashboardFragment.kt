@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.rczubak.cryptvesting.R
 import com.rczubak.cryptvesting.common.Error
@@ -114,7 +114,12 @@ class DashboardFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = DashboardAdapter()
         binding.walletRv.adapter = adapter
-        binding.walletRv.layoutManager = LinearLayoutManager(context)
+        val layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
+                gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+            }
+
+        binding.walletRv.layoutManager = layoutManager
     }
 
     @SuppressLint("SetTextI18n")

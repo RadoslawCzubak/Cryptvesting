@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rczubak.cryptvesting.R
-import com.rczubak.cryptvesting.domain.model.WalletCoin
+import com.rczubak.cryptvesting.common.toPx
 import com.rczubak.cryptvesting.databinding.ItemCoinBinding
+import com.rczubak.cryptvesting.domain.model.WalletCoin
 import kotlin.math.pow
 import kotlin.math.round
 
@@ -31,6 +32,11 @@ class DashboardAdapter : RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
             LayoutInflater.from(parent.context),
             R.layout.item_coin, parent, false
         )
+        binding.coinCard.apply {
+            val params = layoutParams
+            params.height = (200..300).random().toPx(parent.context)
+            layoutParams = params
+        }
         return ViewHolder(binding)
     }
 

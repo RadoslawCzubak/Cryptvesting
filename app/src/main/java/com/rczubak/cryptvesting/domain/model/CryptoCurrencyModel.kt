@@ -12,10 +12,13 @@ data class CryptoCurrencyModel(
     @Json(name = "currency") val symbol: String,
     @Json(name = "price") val price: Double,
     @Json(name = "price_date") val price_date: String?,
-    val _priceCurrency: String?
+    val _priceCurrency: String?,
+    @Json(name = "logo_url") val _logoUrl: String? = ""
 ) {
     val priceCurrency
         get() = _priceCurrency ?: "USD"
+    val logoUrl
+        get() = _logoUrl ?: ""
     val priceDate: LocalDateTime?
         get() {
             return try {
@@ -34,7 +37,8 @@ data class CryptoCurrencyModel(
         crypto.symbol,
         crypto.price,
         crypto.priceDate?.format(DateTimeFormatter.ISO_DATE_TIME) ?: "",
-        crypto.priceCurrency
+        crypto.priceCurrency,
+        crypto.logoUrl ?: ""
     )
 
     constructor(
