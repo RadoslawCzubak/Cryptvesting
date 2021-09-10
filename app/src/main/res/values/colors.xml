@@ -11,4 +11,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="labelColor">@color/portage</color>
+
+    <color name="backgroundLight">#2b1b3f</color>
+    <color name="backgroundDark">#1d1b29</color>
+    <color name="itemLight">#2f2d45</color>
+    <color name="itemDark">#2a2e3a</color>
 </resources>

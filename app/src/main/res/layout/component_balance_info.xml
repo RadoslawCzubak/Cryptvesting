@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/port_gore"
+            android:background="@drawable/item_drawable"
             android:padding="16dp"
             android:paddingTop="24dp"
             android:paddingBottom="24dp">
@@ -28,7 +28,7 @@
                 style="@style/BasicLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/amount"
+                android:text="@string/balance"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
