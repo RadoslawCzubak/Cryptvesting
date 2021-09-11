@@ -91,8 +91,10 @@ class MainRepositoryImpl @Inject constructor(
             } catch (e: IllegalArgumentException) {
                 return@withContext Resource.error(code = Error.NO_PRICES_FOR_ALL_OWNED_CRYPTO.code)
             }
-            val walletCoinsWithUpdatedValues =
+            var walletCoinsWithUpdatedValues =
                 TransactionCalculator.calculateWalletCoinValues(walletCoins, prices)
+            walletCoinsWithUpdatedValues =
+                updateWalletCoinsWithLogoUrl(walletCoinsWithUpdatedValues, prices)
             Resource.success(Wallet(walletCoinsWithUpdatedValues, value))
         }
 
@@ -103,6 +105,23 @@ class MainRepositoryImpl @Inject constructor(
             return Resource.error(code = Error.DATABASE_WRITE_ERROR.code)
         }
         return Resource.success()
+    }
+
+    private fun updateWalletCoinsWithLogoUrl(
+        walletCoins: List<WalletCoin>,
+        cryptoStates: List<CryptoCurrencyModel>
+    ): List<WalletCoin> {
+        val updated: ArrayList<WalletCoin> = ArrayList()
+        for (walletCoin in walletCoins) {
+            var updatedCoin = walletCoin.copy()
+            for (cryptoState in cryptoStates) {
+                if (walletCoin.currencySymbol == cryptoState.symbol) {
+                    updatedCoin = walletCoin.copy(logoUrl = cryptoState.logoUrl)
+                }
+            }
+            updated.add(updatedCoin)
+        }
+        return updated.toList()
     }
 
     private suspend fun getCryptoCurrenciesState(

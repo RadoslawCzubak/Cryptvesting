@@ -4,6 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.size.Scale
+import coil.transform.CircleCropTransformation
 import com.rczubak.cryptvesting.R
 import com.rczubak.cryptvesting.common.toPx
 import com.rczubak.cryptvesting.databinding.ItemCoinBinding
@@ -24,6 +27,13 @@ class DashboardAdapter : RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
                 if (coin.valueInUSD != null) "${
                     round((coin.valueInUSD * 10.0.pow(6.0))) / 10.0.pow(6.0)
                 } $" else "N/D"
+            binding.imageView.load(
+                coin.logoUrl
+            ) {
+                crossfade(500)
+                transformations(CircleCropTransformation())
+                scale(Scale.FIT)
+            }
         }
     }
 

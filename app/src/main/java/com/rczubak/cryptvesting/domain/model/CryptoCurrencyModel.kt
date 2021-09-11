@@ -8,12 +8,12 @@ import org.threeten.bp.format.DateTimeParseException
 
 
 data class CryptoCurrencyModel(
-    @Json(name = "name") val name: String,
-    @Json(name = "currency") val symbol: String,
-    @Json(name = "price") val price: Double,
-    @Json(name = "price_date") val price_date: String?,
+    @field:Json(name = "name") val name: String,
+    @field:Json(name = "currency") val symbol: String,
+    @field:Json(name = "price") val price: Double,
+    @field:Json(name = "price_date") val price_date: String?,
     val _priceCurrency: String?,
-    @Json(name = "logo_url") val _logoUrl: String? = ""
+    @field:Json(name = "logo_url") val _logoUrl: String? = ""
 ) {
     val priceCurrency
         get() = _priceCurrency ?: "USD"

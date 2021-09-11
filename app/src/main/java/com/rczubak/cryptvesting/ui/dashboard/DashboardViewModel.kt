@@ -63,8 +63,7 @@ class DashboardViewModel @Inject constructor(
 
     @InternalCoroutinesApi
     fun observeProfit() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+        viewModelScope.launch { withContext(Dispatchers.IO) {
                 mainRepository.getCurrentProfit()
                 mainRepository.profit.collect {
                     _profit.postValue(it)
