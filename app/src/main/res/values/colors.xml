@@ -16,4 +16,6 @@
     <color name="backgroundDark">#1d1b29</color>
     <color name="itemLight">#2f2d45</color>
     <color name="itemDark">#2a2e3a</color>
+    <color name="buttonPink">#b46fe2</color>
+    <color name="buttonPurple">#674de2</color>
 </resources>

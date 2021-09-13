@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Base.Widget.MaterialComponents.TextView.UserGreeting">
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/lato_bold</item>
@@ -19,5 +20,13 @@
     <style name="ItemLabel">
         <item name="fontFamily">@font/lato_bold</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="DefaultButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:paddingStart">30dp</item>
+        <item name="android:paddingEnd">30dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:background">@drawable/button_background</item>
     </style>
 </resources>
