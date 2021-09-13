@@ -40,4 +40,8 @@ class AddStatementViewModel @Inject constructor(
             }
         }
     }
+
+    fun cancelTransactions() {
+        _transactionsToAdd.postValue(ArrayList())
+    }
 }

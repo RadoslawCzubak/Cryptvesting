@@ -56,10 +56,22 @@ class AddStatementFragment : Fragment() {
     private fun setOnClickListeners() {
         binding.chooseStatementButton.setOnClickListener {
             openFileLauncher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            binding.apply {
+                newStatementBtns.visibility = View.VISIBLE
+                chooseStatementButton.visibility = View.GONE
+            }
         }
 
         binding.saveButton.setOnClickListener {
             viewModel.saveTransactions()
+        }
+
+        binding.cancelButton.setOnClickListener {
+            viewModel.cancelTransactions()
+            binding.apply {
+                newStatementBtns.visibility = View.GONE
+                chooseStatementButton.visibility = View.VISIBLE
+            }
         }
     }
 
