@@ -7,6 +7,7 @@ App which stores your cryptocurrency wallet, that analyze if your investments br
 
 - [x] Dashboard
 - [x] Import statements
+- [ ] Animations
 - [ ] List of coin rates
 - [ ] Coin detail view with market history and graph
 - [ ] Password code
