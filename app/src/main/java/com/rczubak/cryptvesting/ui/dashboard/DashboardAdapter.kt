@@ -13,10 +13,12 @@ import com.rczubak.cryptvesting.databinding.ItemCoinBinding
 import com.rczubak.cryptvesting.domain.model.WalletCoin
 import kotlin.math.pow
 import kotlin.math.round
+import kotlin.random.Random
 
 class DashboardAdapter : RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
 
     private val data = ArrayList<WalletCoin>()
+    private val random = Random(1)
 
     inner class ViewHolder(private val binding: ItemCoinBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -44,7 +46,7 @@ class DashboardAdapter : RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
         )
         binding.coinCard.apply {
             val params = layoutParams
-            params.height = (200..300).random().toPx(parent.context)
+            params.height = random.nextInt(200, 300).toPx(parent.context)
             layoutParams = params
         }
         return ViewHolder(binding)
