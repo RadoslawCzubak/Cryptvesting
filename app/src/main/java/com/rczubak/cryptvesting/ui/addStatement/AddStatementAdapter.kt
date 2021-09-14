@@ -16,9 +16,9 @@ class AddStatementAdapter(private val onRecyclerViewEmpty: () -> Unit) :
         fun bind(transaction: TransactionModel) {
             binding.buyAmountTv.text = transaction.amount.toString()
             binding.buyCoinTv.text = transaction.buyCoin
-            binding.sellAmountTv.text = transaction.price.toString()
+            binding.sellAmountTv.text = "%.6f".format(transaction.price * transaction.amount)
             binding.sellCoinTv.text = transaction.sellCoin
-            binding.typeImageview.scaleY = if (transaction.type == TransactionType.BUY) -1F else 1F
+            binding.typeImageview.scaleX = if (transaction.type == TransactionType.BUY) -1F else 1F
         }
     }
 

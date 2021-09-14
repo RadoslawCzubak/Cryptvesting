@@ -38,7 +38,7 @@
 
         <LinearLayout
             android:id="@+id/new_statement_btns"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="gone"
@@ -52,7 +52,7 @@
                 style="@style/DefaultButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="@string/cancel" />
 
@@ -61,7 +61,7 @@
                 style="@style/DefaultButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="@string/add" />
         </LinearLayout>
