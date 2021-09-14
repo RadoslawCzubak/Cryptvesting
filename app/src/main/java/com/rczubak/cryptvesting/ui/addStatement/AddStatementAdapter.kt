@@ -5,18 +5,20 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rczubak.cryptvesting.R
-import com.rczubak.cryptvesting.domain.model.TransactionModel
 import com.rczubak.cryptvesting.databinding.ItemTransactionBinding
+import com.rczubak.cryptvesting.domain.model.TransactionModel
+import com.rczubak.cryptvesting.domain.model.TransactionType
 
-class AddStatementAdapter(private val onRecyclerViewEmpty: () -> Unit) : RecyclerView.Adapter<AddStatementAdapter.AddStatementViewHolder>() {
+class AddStatementAdapter(private val onRecyclerViewEmpty: () -> Unit) :
+    RecyclerView.Adapter<AddStatementAdapter.AddStatementViewHolder>() {
     inner class AddStatementViewHolder(private val binding: ItemTransactionBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(transaction: TransactionModel){
+        fun bind(transaction: TransactionModel) {
             binding.buyAmountTv.text = transaction.amount.toString()
             binding.buyCoinTv.text = transaction.buyCoin
             binding.sellAmountTv.text = transaction.price.toString()
             binding.sellCoinTv.text = transaction.sellCoin
-            binding.transactionTypeTv.text = transaction.type.name
+            binding.typeImageview.scaleY = if (transaction.type == TransactionType.BUY) -1F else 1F
         }
     }
 
@@ -38,7 +40,7 @@ class AddStatementAdapter(private val onRecyclerViewEmpty: () -> Unit) : Recycle
     }
 
     override fun getItemCount(): Int {
-        if (data.size == 0){
+        if (data.size == 0) {
             onRecyclerViewEmpty()
         }
         return data.size

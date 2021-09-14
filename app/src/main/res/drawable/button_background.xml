@@ -9,7 +9,7 @@
                 android:angle="45"
                 />
             <corners
-                android:radius="30dp"/>
+                android:radius="500dp"/>
         </shape>
     </item>
     <item android:state_enabled="true">
@@ -32,7 +32,7 @@
                 android:angle="45"
                 />
             <corners
-                android:radius="30dp"/>
+                android:radius="500dp"/>
         </shape>
     </item>
 </selector>

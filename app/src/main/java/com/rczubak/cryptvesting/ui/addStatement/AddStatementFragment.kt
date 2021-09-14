@@ -41,6 +41,7 @@ class AddStatementFragment : Fragment() {
         setupRecyclerView()
         setOnClickListeners()
         setObservers()
+        binding.chooseStatementButton.setBackgroundResource(R.drawable.button_background)
     }
 
     private fun setupRecyclerView() {
