@@ -4,5 +4,9 @@
         <item>@font/lato</item>
         <item>@font/lato_bold</item>
         <item>@font/lato_light</item>
+        <item>@font/raleway</item>
+        <item>@font/raleway_bold</item>
+        <item>@font/raleway_light</item>
+        <item>@font/raleway_semibold</item>
     </array>
 </resources>

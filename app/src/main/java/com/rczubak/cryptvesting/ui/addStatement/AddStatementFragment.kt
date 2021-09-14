@@ -45,8 +45,8 @@ class AddStatementFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = AddStatementAdapter {
-            onNoValuesView()
+        adapter = AddStatementAdapter { isEmpty: Boolean ->
+            setNoValuesView(isEmpty)
         }
         binding.apply {
             newStatementRv.adapter = adapter
@@ -92,8 +92,8 @@ class AddStatementFragment : Fragment() {
         }
     }
 
-    private fun onNoValuesView() {
-        // TODO: Implement no values view
+    private fun setNoValuesView(isEmpty: Boolean) {
+        binding.emptyTransactionsView.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
     private fun showSnackbar() {

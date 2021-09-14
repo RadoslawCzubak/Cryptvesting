@@ -9,7 +9,7 @@ import com.rczubak.cryptvesting.databinding.ItemTransactionBinding
 import com.rczubak.cryptvesting.domain.model.TransactionModel
 import com.rczubak.cryptvesting.domain.model.TransactionType
 
-class AddStatementAdapter(private val onRecyclerViewEmpty: () -> Unit) :
+class AddStatementAdapter(private val onRecyclerViewEmpty: (Boolean) -> Unit) :
     RecyclerView.Adapter<AddStatementAdapter.AddStatementViewHolder>() {
     inner class AddStatementViewHolder(private val binding: ItemTransactionBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -40,9 +40,7 @@ class AddStatementAdapter(private val onRecyclerViewEmpty: () -> Unit) :
     }
 
     override fun getItemCount(): Int {
-        if (data.size == 0) {
-            onRecyclerViewEmpty()
-        }
+        onRecyclerViewEmpty(data.size == 0)
         return data.size
     }
 

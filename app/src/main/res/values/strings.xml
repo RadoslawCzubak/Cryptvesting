@@ -12,4 +12,5 @@
     <string name="general_greetings">Hello &#128075;</string>
     <string name="balance">Balance</string>
     <string name="owned_coins">Owned coins</string>
+    <string name="emptyTransactionList">Choose .xlsx file with your transactions from Binance</string>
 </resources>
