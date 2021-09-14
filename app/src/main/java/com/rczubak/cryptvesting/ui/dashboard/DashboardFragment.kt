@@ -3,6 +3,7 @@ package com.rczubak.cryptvesting.ui.dashboard
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -42,6 +43,9 @@ class DashboardFragment : Fragment() {
         setObservers()
         viewModel.observeProfit()
         viewModel.getWallet()
+        AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in).also {
+            binding.materialCardView.startAnimation(it)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
