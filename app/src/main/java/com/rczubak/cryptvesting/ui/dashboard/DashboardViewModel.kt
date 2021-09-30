@@ -4,15 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rczubak.cryptvesting.domain.model.Wallet
 import com.rczubak.cryptvesting.common.Resource
+import com.rczubak.cryptvesting.domain.model.Wallet
 import com.rczubak.cryptvesting.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +26,7 @@ class DashboardViewModel @Inject constructor(
         refreshCrypto()
     }
 
-    private fun refreshCrypto(){
+    private fun refreshCrypto() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 mainRepository.getCurrentProfit()
@@ -63,10 +60,33 @@ class DashboardViewModel @Inject constructor(
 
     @InternalCoroutinesApi
     fun observeProfit() {
-        viewModelScope.launch { withContext(Dispatchers.IO) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
                 mainRepository.getCurrentProfit()
                 mainRepository.profit.collect {
-                    _profit.postValue(it)
+                    animateProfit(it)
+                }
+            }
+        }
+    }
+
+    private fun animateProfit(number: Resource<Double>) {
+        viewModelScope.launch {
+            val initialValue = number.data
+            if (initialValue != null) {
+                withContext(Dispatchers.Default) {
+                    for (i in 0..1000) {
+                        delay((i / 100).toLong())
+                        val value = initialValue - (i.toDouble() * 0.01)
+                        _profit.postValue(
+                            Resource(
+                                number.status,
+                                number.code,
+                                value,
+                                number.message
+                            )
+                        )
+                    }
                 }
             }
         }
