@@ -97,7 +97,7 @@ class AddStatementFragment : Fragment() {
     }
 
     private fun showSnackbar() {
-        Snackbar.make(this.requireView(), R.string.save_positive, Snackbar.LENGTH_SHORT)
+        Snackbar.make(this.requireView(), R.string.save_positive, Snackbar.LENGTH_SHORT).show()
     }
 
 }

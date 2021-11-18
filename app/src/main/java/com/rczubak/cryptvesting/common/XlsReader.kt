@@ -27,17 +27,17 @@ class XlsReader {
                 transactionRowStrings.add(cell.stringCellValue)
             }
             val splittedCoins =
-                splitMarketCoins(transactionRowStrings[TransactionsHeaders.MARKET.value])
+                splitMarketCoins(transactionRowStrings[TransactionsHeaders.MARKET.index])
             val buyCoin = splittedCoins[0]
             val sellCoin = splittedCoins[1]
             transactions.add(
                 TransactionModel.createFromStrings(
                     buyCoin,
                     sellCoin,
-                    transactionRowStrings[TransactionsHeaders.PRICE.value],
-                    transactionRowStrings[TransactionsHeaders.AMOUNT.value],
-                    transactionRowStrings[TransactionsHeaders.TYPE.value],
-                    transactionRowStrings[TransactionsHeaders.DATE.value],
+                    transactionRowStrings[TransactionsHeaders.PRICE.index],
+                    transactionRowStrings[TransactionsHeaders.AMOUNT.index],
+                    transactionRowStrings[TransactionsHeaders.TYPE.index],
+                    transactionRowStrings[TransactionsHeaders.DATE.index],
                 )
             )
         }
@@ -49,7 +49,7 @@ class XlsReader {
         return listOf(market.replace("USDT", ""), "USDT")
     }
 
-    private enum class TransactionsHeaders(val value: Int) {
+    private enum class TransactionsHeaders(val index: Int) {
         DATE(0),
         MARKET(1),
         TYPE(2),

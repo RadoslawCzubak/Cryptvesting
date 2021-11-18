@@ -23,18 +23,3 @@ class Resource<out T>(val status: Status, val code: Int, val data: T?, val messa
 
     fun isSuccess() = status == Status.SUCCESS
 }
-
-//sealed class Resource<out S,out F>{
-//
-//    data class Success<S>(val data: S): Resource<S,Nothing>()
-//
-//    object Loading: Resource<Nothing,Nothing>()
-//
-//    data class Error<F>(val error: F): Resource<Nothing, F>()
-//
-//    data class Exception(val cause: Cause): Resource<Nothing, Nothing>(){
-//        interface Cause
-//    }
-//}
-//
-//object NoInternetConnection: Resource.Exception.Cause

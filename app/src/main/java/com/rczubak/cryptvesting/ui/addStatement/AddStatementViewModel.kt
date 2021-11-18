@@ -26,8 +26,8 @@ class AddStatementViewModel @Inject constructor(
     val transactionsSaveStatus: LiveData<Event<Boolean>> = _transactionsSaveStatus
 
     fun readFile(inputStream: InputStream) {
-        val readedTransactions = XlsReader().readTransactionsFromXlsx(inputStream)
-        _transactionsToAdd.postValue(readedTransactions)
+        val readTransactions = XlsReader().readTransactionsFromXlsx(inputStream)
+        _transactionsToAdd.postValue(readTransactions)
     }
 
     fun saveTransactions() {

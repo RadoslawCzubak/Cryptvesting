@@ -101,12 +101,12 @@ class DashboardFragment : Fragment() {
     }
 
     private fun onUnknownError() {
-        Snackbar.make(requireView(), "Unexpected error occurred", Snackbar.LENGTH_SHORT)
+        Snackbar.make(requireView(), "Unexpected error occurred", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun onNoCrypto() {
         setBalance(0.0)
-        Snackbar.make(requireView(), "You have no coins in your wallet!", Snackbar.LENGTH_SHORT)
+        Snackbar.make(requireView(), "You have no coins in your wallet!", Snackbar.LENGTH_SHORT).show()
     }
 
 
